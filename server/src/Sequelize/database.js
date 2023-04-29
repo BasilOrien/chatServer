@@ -9,19 +9,26 @@ const { DATABASE_NAME, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_USERNAME } =
 
 //sequelize
 
-const sequelize = new Sequelize({
-  database: DATABASE_NAME,
-  username: DATABASE_USERNAME,
-  password: DATABASE_PASSWORD,
-  dialect: "postgres",
-  logging: false,
-});
+const sequelize = new Sequelize(
+  "postgresql://cuentaparaestudiosf:gGkHpeDEJ91h@ep-noisy-wind-718280.us-east-2.aws.neon.tech/neondb",
+  {
+    logging: false, // set to console.log to see the raw SQL queries
+    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+    dialectModule: require("pg"),
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: true,
+      },
+    },
+  }
+);
 
 export const ChatModel = Chat(sequelize);
-export const UserModel = User(sequelize)
+export const UserModel = User(sequelize);
 
 //relations
-ChatModel.belongsTo(UserModel)
-UserModel.belongsTo(ChatModel)
+ChatModel.belongsTo(UserModel);
+UserModel.belongsTo(ChatModel);
 
 export default sequelize;
