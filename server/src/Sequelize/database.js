@@ -17,7 +17,7 @@ const sequelize = new Sequelize(
     dialectModule: require("pg"),
     dialectOptions: {
       ssl: {
-        require: true,
+        // require: true,
         rejectUnauthorized: true,
       },
     },
