@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import { config } from "dotenv";
 import Chat from "./Models/Chat.js";
+import pg from "pg";
 import User from "./Models/User.js";
 //env
 config();
@@ -14,7 +15,7 @@ const sequelize = new Sequelize(
   {
     logging: false, // set to console.log to see the raw SQL queries
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-    dialectModule: require("pg"),
+    dialectModule: pg,
     dialectOptions: {
       ssl: {
         // require: true,
