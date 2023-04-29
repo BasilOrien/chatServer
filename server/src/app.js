@@ -1,21 +1,28 @@
-import express from "express";
-import { config } from "dotenv";
+import { Server } from "socket.io";
+import express, { urlencoded } from "express";
+import { createServer } from "http";
+import SocketIoHandler from "./webSocket/socket.js";
 import router from "./routes/router.js";
-//config
-config({ path: "../.env" });
+import cors from "cors";
 
-//define
-const app = express();
-
-//middlewares
+export const app = express();
+app.use(urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-//routes
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use("/", router);
-app.get("*", function(req,res) {
-    res.status(404).send('Error 404: La ruta especificada no existe.')
-})
 
-//export
-export default app;
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+  },
+});
+SocketIoHandler(io);
+app.set("port", process.env.SERVER_PORT || 3001);
+
+export default httpServer;
