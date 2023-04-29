@@ -23,6 +23,6 @@ const io = new Server(httpServer, {
   },
 });
 SocketIoHandler(io);
-app.set("port", process.env.SERVER_PORT || 3001);
+app.set("port", 3001);
 
 export default httpServer;
