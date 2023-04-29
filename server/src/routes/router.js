@@ -7,7 +7,7 @@ const router = Router();
 
 router.get("/", function (req, res) {
   res.json({
-    message: "Server Ok",
+    message: "Server Ok v2",
   });
 });
 
